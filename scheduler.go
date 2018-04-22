@@ -1,6 +1,8 @@
-package gosched
+// Copyright 2018 Alec Cunningham. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
-// "github.com/aleccunningham/gomlfq/queue"
+package gosched
 
 type Scheduler struct{}
 

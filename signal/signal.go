@@ -1,3 +1,7 @@
+// Copyright 2018 Alec Cunningham. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package signal contains signals used to communicate to the scheduler's workers
 package signal
 
