@@ -3,19 +3,19 @@ package channel
 
 import "sync"
 
-func generateStream(done <-chan interface{}, procs ...Proc) <-chan Proc {
-	procStream := make(chan Proc)
+func generateStream(done <-chan interface{}, jobs ...interface{}) <-chan interface{} {
+	jobStream := make(chan interface{})
 	go func() {
-		defer close(procStream)
-		for _, i := range procs {
+		defer close(jobStream)
+		for _, i := range jobs {
 			select {
 			case <-done:
 				return
-			case procStream <- i:
+			case jobStream <- i:
 			}
 		}
 	}()
-	return procStream
+	return jobStream
 }
 
 func fanOut(workers int) {

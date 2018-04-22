@@ -12,15 +12,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type MlfqScheduler struct {
+type mlfq struct {
 	sync.Mutex
 	q []Queue // priority queues
 
 	bt *btree.BTree
 }
 
-func NewMlfqScheduler() *MlfqScheduler {
-	return &MlfqScheduler{}
+func NewMlfqScheduler() *mlfq {
+	return &mlfq{}
 }
 
 // Promote takes a Job and moves it to a different queue that is of a higher priority than its current

@@ -43,7 +43,7 @@ const (
 )
 
 // MoveToReady changes a Jobs state to Ready
-func MoveToReady(pid int) {
+func (j *Job) MoveToReady(pid int) {
 	proc := findByPid(pid)
 
 	var job Job
@@ -52,7 +52,7 @@ func MoveToReady(pid int) {
 }
 
 // MoveToWait changes a Jobs state to Ready
-func MoveToWait(pid int) {
+func (j *Job) MoveToWait(pid int) {
 	proc := findByPid(pid)
 
 	var job Job
@@ -61,7 +61,7 @@ func MoveToWait(pid int) {
 }
 
 // MoveToRunning changes a Jobs state to Ready
-func MoveToRunning(pid int) {
+func (j *Job) MoveToRunning(pid int) {
 	proc := findByPid(pid)
 
 	var job Job
@@ -70,7 +70,7 @@ func MoveToRunning(pid int) {
 }
 
 // MoveToDone changes a Jobs state to Ready
-func MoveToDone(pid int) {
+func (j *Job) MoveToDone(pid int) {
 	proc := findByPid(pid)
 
 	var job Job
