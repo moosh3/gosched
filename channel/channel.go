@@ -1,4 +1,5 @@
-package gomlfq
+// Package channel contains methods to manipulate, read, and write via the channel primitive
+package channel
 
 import "sync"
 

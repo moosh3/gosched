@@ -1,27 +1,33 @@
-package mlfq
+// Package sched provides functionality for a job scheduler that virtualizes the CPU and Memory usage
+package sched
 
 import (
-	"time"
+	"log"
+	"sync"
 
 	"github.com/google/btree"
-	"github.com/aleccunningham/mlfq/internal/os/proc"
+	// "github.com/aleccunningham/gomlfq/queue"
 )
 
 // JobScheduler implements a CPU process scheduler, handing incoming Jobs and
 // manipulating related priority queues accordingly.
 type JobScheduler interface {
 	Promote(Job, priority int) error
-	PromoteAll([]Proc)
+	PromoteAll([]Job)
 	Demote(Job, priority int)
-	Recv(jobChan chan)
+	Recv(jobChan chan struct{})
 }
 
 // mlfq is a JobScheduler implementation, scheduling Jobs on a virtualized CPU
-type mlfq struct {
-	mu     synx.Mutex
-	q      []Queue // priority queues
+type MlfqScheduler struct {
+	sync.Mutex
+	q []Queue // priority queues
 
-	bt     *btree.BTree
+	bt *btree.BTree
+}
+
+func NewMlfqScheduler() *MlfqScheduler {
+	return &MlfqScheduler{}
 }
 
 // Promote takes a Job and moves it to a different queue that is of a higher priority than its current
@@ -34,14 +40,14 @@ func (m *mlfq) PromoteAll([]Proc) {}
 func (m *mlfq) Demote(Job, priority int) {}
 
 // Recv takes a channel and will loop until all jobs in the channel are handled
-func Recv(jobChan chan) {
+func Recv(jobChan chan struct{}) {
 	done := make(chan interface{})
-  	defer close(done)
+	defer close(done)
 
 	for {
 		select {
 		case <-done:
-			break loop
+			break
 		case job := <-jobChan:
 			queueJob(job)
 		}

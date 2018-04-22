@@ -1,4 +1,4 @@
-package mlfq
+package sched
 
 import (
 	"syscall"

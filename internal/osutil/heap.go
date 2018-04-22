@@ -2,6 +2,7 @@ package gomlfq
 
 import (
 	"container/heap"
+	// "github.com/aleccunningham/gomlfq/sched"
 )
 
 // Heap implements heap.Interface and holds Items, managing them
@@ -17,14 +18,14 @@ func (pq Heap) Less(i, j int) bool {
 
 func (pq Heap) Swap(i, j int) {
 	pq[i], pq[j] = pq[j], pq[i]
-	pq[i].index = i
-	pq[j].index = j
+	pq[i].jid = i
+	pq[j].jid = j
 }
 
 func (pq *Heap) Push(x interface{}) {
 	n := len(*pq)
 	item := x.(*Job)
-	item.index = n
+	item.jid = n
 	*pq = append(*pq, item)
 }
 
@@ -32,7 +33,7 @@ func (pq *Heap) Pop() interface{} {
 	old := *pq
 	n := len(old)
 	job := old[n-1]
-	job.index = -1 // for safety
+	job.jid = -1 // for safety
 	*pq = old[0 : n-1]
 	return job
 }
@@ -41,5 +42,5 @@ func (pq *Heap) Pop() interface{} {
 func (pq *Heap) update(job *Job, value string, priority int) {
 	job.value = value
 	job.priority = priority
-	heap.Fix(pq, job.index)
+	heap.Fix(pq, job.jid)
 }
