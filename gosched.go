@@ -1,5 +1,4 @@
-// Package sched provides functionality for a job scheduler that virtualizes the CPU and Memory usage
-package sched
+package gosched
 
 import (
 	"log"
