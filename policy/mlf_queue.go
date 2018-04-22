@@ -1,4 +1,7 @@
-// Package mlf_queue is a JobScheduler implementation, scheduling Jobs on a virtualized CPU
+// Copyright 2018 Alec Cunningham. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package policy
 
 import (
