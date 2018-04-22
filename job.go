@@ -6,32 +6,28 @@ import (
 )
 
 type Job struct {
-	// jid is the position in a given slice of Jobs
-	jid int
-	// proc is the os process that the job is scheduled to run
-	proc *os.Process
+	jid     int         // jid is the position in a given slice of Jobs
+	pid     int         // pid of the Jobs associated process
+	process *os.Process // proc is the os process that the job is scheduled to run
 
-	// priority is the priority level that corresponds to the priority queues
-	// in order to place the job on the right queue
-	priority JobPriority
-	// timeSlice can be used as a mock process by representing io/cpu
-	// blocks of which the scheduler must handle
-	timeSlice time.Time
-	// state is the state of the current Job, set by the scheduler
-	state JobStateType
+	priority  JobPriority // corresponds to the priority queues in order to place the job on the right queue
+	timeSlice time.Time   // time io/mem blocks of which the scheduler must handle
+	state     JobStateType
 }
 
 // JobPriority separates the four job queues from one another, giving each queue a certain "weight" or
 // priority on a scale of 0-4, with 0 being of the highest priority, and 4 as the last.
 type JobPriority uint32
 
-// MinPriority
+// MinPriority returns the min priority provided by the scheduler, which is the same
+// value as the priority on the lowest priority FIFO queue
 func (p JobPriority) MinPriority() int { return 0 }
 
-// MaxPriority
+// MaxPriority returns the max priority provided by the scheduler, which is the same
+// value as the priority on the highest priority FIFO queue
 func (p JobPriority) MaxPriority() int { return 0 }
 
-// JobStateType
+// JobStateType is an integer representation of the current state a specific Job
 type JobStateType int
 
 const (
@@ -42,40 +38,42 @@ const (
 	JobStateDone                        // job request has finished
 )
 
-// MoveToReady
+// MoveToReady changes a Jobs state to Ready
 func MoveToReady(pid int) {
 	proc := findByPid(pid)
 
-	var job Proc
+	var job Job
 	job.state = "Ready"
 	job.process = proc
 }
 
-// MoveToWait
+// MoveToWait changes a Jobs state to Ready
 func MoveToWait(pid int) {
 	proc := findByPid(pid)
 
-	var job Proc
+	var job Job
 	job.state = "Wait"
 	job.process = proc
 }
 
-// MoveToRunning
+// MoveToRunning changes a Jobs state to Ready
 func MoveToRunning(pid int) {
 	proc := findByPid(pid)
 
-	var job Proc
+	var job Job
 	job.state = "Running"
 	job.process = proc
 }
 
-// MoveToDone
+// MoveToDone changes a Jobs state to Ready
 func MoveToDone(pid int) {
 	proc := findByPid(pid)
 
-	var job Proc
+	var job Job
 	job.state = "Done"
 	job.process = proc
 }
+
+func findByJid(jid int) *os.Process { return nil }
 
 func findByPid(pid int) *os.Process { return nil }

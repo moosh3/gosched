@@ -1,6 +1,6 @@
-// Package queue provides a queue interface that can be used as a Job queue
+// Package fifo_queue provides a queue interface that can be used as a Job queue
 // with the use of a Job Scheduler
-package queue
+package policy
 
 import (
 	"time"

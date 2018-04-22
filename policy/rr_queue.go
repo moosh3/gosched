@@ -14,7 +14,7 @@
 
 // Package rrqueue provides a container for priority queues
 // and a simple round-robin scheduled consumer.
-package queue
+package policy
 
 import (
 	"errors"

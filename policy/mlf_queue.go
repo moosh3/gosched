@@ -1,23 +1,14 @@
-package gosched
+// Package mlf_queue is a JobScheduler implementation, scheduling Jobs on a virtualized CPU
+package policy
 
 import (
 	"log"
 	"sync"
 
 	"github.com/google/btree"
-	// "github.com/aleccunningham/gomlfq/queue"
+	"github.com/sirupsen/logrus"
 )
 
-// JobScheduler implements a CPU process scheduler, handing incoming Jobs and
-// manipulating related priority queues accordingly.
-type JobScheduler interface {
-	Promote(Job, priority int) error
-	PromoteAll([]Job)
-	Demote(Job, priority int)
-	Recv(jobChan chan struct{})
-}
-
-// mlfq is a JobScheduler implementation, scheduling Jobs on a virtualized CPU
 type MlfqScheduler struct {
 	sync.Mutex
 	q []Queue // priority queues
@@ -49,6 +40,19 @@ func Recv(jobChan chan struct{}) {
 			break
 		case job := <-jobChan:
 			queueJob(job)
+		}
+	}
+}
+
+const (
+	DefaultQueueCount = 4
+)
+
+func init() {
+	for _, queue := range DefaultQueueCount {
+		q := NewJobQueue()
+		if err := q.Subscribe(); err != nil {
+			logrus.Fatal(err)
 		}
 	}
 }
