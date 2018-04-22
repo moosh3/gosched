@@ -53,8 +53,12 @@ package gosched
 import (
 	// channel package
 	_ "github.com/aleccunningham/gosched/channel"
-	// queue package
-	_ "github.com/aleccunningham/gosched/queue"
+	// constants package
+	_ "github.com/aleccunningham/gosched/constants"
+	// context package
+	_ "github.com/aleccunningham/gosched/context"
+	// policy package
+	_ "github.com/aleccunningham/gosched/policy"
 	// signal package
 	_ "github.com/aleccunningham/gosched/signal"
 )

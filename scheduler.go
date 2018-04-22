@@ -4,8 +4,6 @@
 
 package gosched
 
-// "github.com/aleccunningham/gomlfq/queue"
-
 type Scheduler struct{}
 
 // JobScheduler implements a CPU process scheduler, handing incoming Jobs and
