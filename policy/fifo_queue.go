@@ -8,29 +8,31 @@ import (
 	"time"
 )
 
+const defaultQueueBuffer = 1024
+
 // Queue represents a fifo queue data structure using an in memory
 // heap as its data store. The struct also stores the queues priority level
 // for cpu scheduling, and the ticker time for one cpu cycle (the higher the
 // priority, the shorter the cpu cycle will be)
 type Queue struct {
-	priorityLevel uint64
-	tickerLength  time.Time
-	// fifo imported from container/heap
-
+	job []interface{}
+	buf []byte
 }
 
 // NewQueue returns a pointer to a fifo queue data structure with a set priorityLevel
-func NewQueue(pl uint64) *Queue {
-	return &Queue{priorityLevel: pl}
+func NewQueue() *Queue {
+	return &Queue{buf: defaultQueueBuffer}
 }
 
-// WithTicker returns a fifo queue with an associated priorityLevel and tickerLength
-func NewQueueWithTicker(priorityLevel, tickerLength uint64) *Queue {
-	queue := NewQueue(priorityLevel)
-	heap.Init(&queue)
-	queue.tickerLength = tickerLength // one cpu cycle
-	return &queue
+type PriorityQueue struct {
+	q            Queue
+	tickInterval time.Duration
+	timeout      time.Duration
 }
 
-// getQueueWithPriority
-func getQueueWithPriority(priority int) *Queue { return nil }
+func NewPriorityQueue(tickInterval, timeout time.Duration) *PriorityQueue {
+	return &PriorityQueue{
+		tickInterval: tickInterval,
+		timeout:      timeout,
+	}
+}

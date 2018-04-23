@@ -7,3 +7,14 @@ Package context provides a context that allows for an abstracted equivilant of
 context switching between processes; in this case, Jobs
 */
 package context
+
+import (
+	"context"
+	"time"
+)
+
+var timeSlice int
+
+func WithTimeout(ctx context.Context, timeout time.Time) context.Context {
+	return context.WithValue(ctx, timeSlice, timeout)
+}
