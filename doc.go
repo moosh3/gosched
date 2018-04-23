@@ -3,27 +3,25 @@
 // license that can be found in the LICENSE file.
 
 /*
-Package gosched is a set of packages that provide tools for constructing a Job scheduler.
-A typical use is scheduling Jobs onto one or more queues based on associated identifiers (timeSlice, jobPriority).
-It currently provides the following:
+Package gosched contains a set of libraries providing tools for constructing a Job scheduler, based on a configuration of Job schemas and scheduling policy. A typical use is scheduling Jobs onto one or more queues based on associated identifiers (timeSlice, jobPriority). The main interface, the Scheduler, can use any scheduling policy that implements its interface. Currently that includes shortest-job-first, fifo, and round robin. Policies can be found in the gosched/policy package.
 
-gosched/channel
+Package gosched/channel
 
 contains helper functions for working with channels and goroutines.
 
-gosched/constants
+Package gosched/constants
 
 provides definitions for various, well, constants
 
-gosched/context
+Package gosched/context
 
 allows for context switching between jobs given a scheduling policy
 
-gosched/policy
+Package gosched/policy
 
 is one of the more important packages, supplying scheduling policies for FIFO queue, Round Robin, and Multi-level Feedback queues
 
-gosched/signal
+Package gosched/signal
 
 provides a set of signals used to trigger proccesses and other system calls
 
