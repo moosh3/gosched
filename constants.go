@@ -1,5 +1,5 @@
 // Package constants provides values for scheduler policies
-package constants
+package gosched
 
 // Process switch behavior
 const (
