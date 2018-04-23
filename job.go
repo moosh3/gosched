@@ -9,19 +9,22 @@ import (
 	"time"
 )
 
+// Job is a wrapper/abstraction for a traditional os.Process call by giving it
+// attributes and methods that allow it to be handled and executed by a JobScheduler with any
+// implemented JobPolicy. Note that once a Job is scheduled, it runs its Job.process.
 type Job struct {
-	jid     int         // jid is the position in a given slice of Jobs
-	pid     int         // pid of the Jobs associated process
-	process *os.Process // proc is the os process that the job is scheduled to run
+	jid     int         `json:"jid"`     // jid is the position in a given slice of Jobs
+	pid     int         `json:"pid"`     // pid of the Jobs associated process
+	process *os.Process `json:"process"` // proc is the os process that the job is scheduled to run
 
-	priority  JobPriority // corresponds to the priority queues in order to place the job on the right queue
-	timeSlice time.Time   // time io/mem blocks of which the scheduler must handle
-	state     JobStateType
+	priority  JobPriority  `json:"jobPriority"` // corresponds to the priority queues in order to place the job on the right queue
+	timeSlice time.Time    `json:"timeSlice"`   // time io/mem blocks of which the scheduler must handle
+	state     JobStateType `json:"state"`
 }
 
 // JobPriority separates the four job queues from one another, giving each queue a certain "weight" or
 // priority on a scale of 0-4, with 0 being of the highest priority, and 4 as the last.
-type JobPriority uint32
+type JobPriority int
 
 // MinPriority returns the min priority provided by the scheduler, which is the same
 // value as the priority on the lowest priority FIFO queue
@@ -34,6 +37,7 @@ func (p JobPriority) MaxPriority() int { return 0 }
 // JobStateType is an integer representation of the current state a specific Job
 type JobStateType int
 
+// Possible states a Job could be in at any given time
 const (
 	JobStateNone    JobStateType = iota // unititialized
 	JobStateReady                       // job is ready to be scheduled
