@@ -28,7 +28,7 @@ func (p Policy) String() string {
 	return "Unknown"
 }
 
-type Policy interface {
+type PolicyController interface {
 	Enqueue(int, interface{}) error
 	Dequeue(int) (interface{}, error)
 }

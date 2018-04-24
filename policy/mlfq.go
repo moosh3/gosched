@@ -24,13 +24,13 @@ func NewMlfqScheduler() *mlfq {
 }
 
 // Promote takes a Job and moves it to a different queue that is of a higher priority than its current
-func (m *mlfq) Promote(Job, priority int) error {}
+func (m *mlfq) Promote(gosched.Job, priority int) error {}
 
 // PromoteAll moves all Jobs to the highest priority queue
-func (m *mlfq) PromoteAll([]Proc) {}
+func (m *mlfq) PromoteAll([]gosched.Job) {}
 
 // Demote takes a Job and moves it to a different queue that is of a lower priority than its current
-func (m *mlfq) Demote(Job, priority int) {}
+func (m *mlfq) Demote(gosched.Job, priority int) {}
 
 // Recv takes a channel and will loop until all jobs in the channel are handled
 func Recv(jobChan chan struct{}) {
@@ -62,8 +62,8 @@ func init() {
 
 // queueJob places a given job onto a retrieved queue based upon the
 // priority level of the job. The job will now sit on the queue for one CPU cycle.
-func (m mlfq) queueJob(j Job) error {
-	priority, error := jobPriority(Job)
+func (m mlfq) queueJob(j gosched.Job) error {
+	priority, error := jobPriority(gosched.Job)
 	if err != nil {
 		log.Fatalf("Failed to get job")
 	}

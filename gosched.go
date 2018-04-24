@@ -6,13 +6,14 @@ package gosched
 
 import (
 	"context"
+	"sync"
 )
 
 // Scheduler contains information needed for use when implementing
 // the JobScheduler interface for a given scheduling policy
 type Scheduler struct {
-	hMu    synxx.Mutex // protects hot
-	policy string
+	sync.Mutex // protects hot
+	policy     string
 }
 
 // GoScheduler implements a CPU process scheduler, handing incoming Jobs and
@@ -43,10 +44,10 @@ type SocketController interface {
 // QueueController is sort of policy specific - but overall, it can be considered the controller for the
 // queues being used via any policy. Priority queues are expected, and identified via a mapped int to the string representation.
 type QueueController interface {
+	PolicyController
+
 	Start(pr int) error
 	Stop(pr int)
-	Enqueue(pr int, item interface{}) error
-	Dequeue(pr int, item interface{}) error
 }
 
 // Listener provides an interface that can act as a gateway between any activity from an external source
